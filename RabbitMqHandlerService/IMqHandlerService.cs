@@ -4,7 +4,7 @@ using RabbitMQ.Client.Events;
 
 namespace RabbitMqHandlerService
 {
-    public interface IMqHandlerService<TMessage> : IDisposable where TMessage : class
+    public interface IMqHandlerService : IDisposable
     {
         /// <summary>
         /// Инициализировать обработчик

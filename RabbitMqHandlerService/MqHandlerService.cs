@@ -8,7 +8,7 @@ using RabbitMQ.Client.Events;
 
 namespace RabbitMqHandlerService
 {
-    public class MqHandlerService<TMessage> : IMqHandlerService<TMessage> where TMessage : class
+    public class MqHandlerService : IMqHandlerService
     {
         private IConnection mConnection;
         private IModel mChannel;
@@ -40,9 +40,9 @@ namespace RabbitMqHandlerService
         /// <param name="headers">В заголовки передаются параметры методов, которые необходимо вызвать</param>
         public void ProcessMessage(byte[] messageBody, IDictionary<string, object> headers)
         {
-            var messageEntity = JsonSerializer.Deserialize(Encoding.UTF8.GetString(messageBody), typeof(TMessage));
+            //var messageEntity = JsonSerializer.Deserialize(Encoding.UTF8.GetString(messageBody), typeof(string));
             var methodName = Encoding.UTF8.GetString((byte[])headers["Method"]);
-            MessageReceived?.Invoke(this, new MessageReceiveEventArgs(methodName, new []{messageEntity}));
+            MessageReceived?.Invoke(this, new MessageReceiveEventArgs(methodName, new []{ messageBody }));
         }
 
         public event EventHandler<MessageReceiveEventArgs> MessageReceived;
